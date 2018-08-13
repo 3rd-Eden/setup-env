@@ -1,0 +1,54 @@
+{
+  "name": "setup-env",
+  "version": "1.0.0",
+  "description": "Automated, feature detected, environment setup for your test suite",
+  "main": "index.js",
+  "scripts": {
+    "test": "nyc --reporter=text --reporter=json-summary npm run debug",
+    "debug": "DEBUG=setup-env* mocha --require index"
+  },
+  "author": "Arnout Kazemier",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/3rd-Eden/setup-env.git"
+  },
+  "keywords": [
+    "setup",
+    "test",
+    "env"
+  ],
+  "bugs": {
+    "url": "https://github.com/3rd-Eden/setup-env/issues"
+  },
+  "homepage": "https://github.com/3rd-Eden/setup-env#readme",
+  "setup": {
+    "loaders": {
+      ".jpg": "./test/loader.js"
+    }
+  },
+  "babel": {
+    "presets": [
+      "@babel/preset-env",
+      "@babel/preset-react"
+    ]
+  },
+  "dependencies": {
+    "diagnostics": "^1.1.1",
+    "resolves": "^1.0.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.0.0-rc.1",
+    "@babel/preset-env": "^7.0.0-rc.1",
+    "@babel/preset-react": "^7.0.0-rc.1",
+    "@babel/register": "^7.0.0-rc.1",
+    "assume": "^2.1.0",
+    "enzyme": "^3.4.1",
+    "enzyme-adapter-react-16": "^1.2.0",
+    "jsdom": "^11.12.0",
+    "mocha": "^5.2.0",
+    "nyc": "^12.0.2",
+    "react": "^16.4.2",
+    "react-dom": "^16.4.2"
+  }
+}
