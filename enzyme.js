@@ -8,26 +8,14 @@
  * @returns {Undefined} Nope, nothing.
  * @private
  */
-module.exports = function enzymeAdapter({ debug, json }) {
+module.exports = function enzymeAdapter({ debug, search }) {
   const enzyme = require('enzyme');
 
   //
   // Get _all_ possible dependencies of the application in an attempt to
   // figure out which enzyme adapter needs to be loaded.
   //
-  let adapters = [
-    'dependencies',
-    'devDependencies',
-    'peerDependencies',
-    'bundledDependencies'
-  ].reduce(function reducePackages(packages, field) {
-    if (!(field in json)) return packages;
-
-    return packages.concat(Object.keys(json[field]));
-  }, []).filter(function searchAdapter(name) {
-    return /^enzyme-adapter-react-(\d|\.)+$/.test(name);
-  });
-
+  const adapters = search(/^enzyme-adapter-react-(\d|\.)+$/);
   if (adapters.length) debug('Found the following adapters in package.json', adapters);
 
   //
@@ -39,20 +27,34 @@ module.exports = function enzymeAdapter({ debug, json }) {
   try {
     const { major, minor, patch } = require('react').version.split('.');
 
-    adapters.push(`enzyme-adapter-react-${major}`);
-    adapters.push(`enzyme-adapter-react-${major}.${minor}`);
-    adapters.push(`enzyme-adapter-react-${major}.${minor}.${patch}`);
+    adapters.push({
+      name: `enzyme-adapter-react-${major}`,
+      type: 'guess work',
+      version: 'latest'
+    });
+
+    adapters.push({
+      name: `enzyme-adapter-react-${major}.${minor}`,
+      type: 'guess work',
+      version: 'latest'
+    });
+
+    adapters.push({
+      name: `enzyme-adapter-react-${major}.${minor}.${patch}`,
+      type: 'guess work',
+      version: 'latest'
+    });
   } catch (e) { debug('Unable to resolve enzyme adapter based on React version'); }
 
-  adapters.some(function setupAdapter(name) {
+  adapters.some(function setupAdapter(spec) {
     try {
-      const Adapter = require(name);
+      const Adapter = require(spec.name);
       enzyme.configure({ adapter: new Adapter() });
     } catch (e) {
       return false;
     }
 
-    debug(`Enzyme configured with the ${name} Adapter`);
+    debug(`Enzyme configured with the ${spec.name} Adapter found through ${spec.type}`);
     return true;
   });
 };

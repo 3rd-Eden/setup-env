@@ -116,7 +116,7 @@ const config = Object.assign({
  * logic.
  *
  * @returns {Function} Undo what we just ignored.
- * @private
+ * @public
  */
 function ignore() {
   const methods = ['warn', 'error', 'log'];
@@ -135,6 +135,37 @@ function ignore() {
       delete ignored[method];
     });
   }
+}
+
+/**
+ * Find packages in the users package.json based on a given regexp.
+ *
+ * @param {RegExp|String} matcher RegExp/string the package name needs to match.
+ * @returns {Array} Matches
+ * @public
+ */
+function search(matcher) {
+  return [
+    'dependencies',
+    'devDependencies',
+    'peerDependencies',
+    'bundledDependencies'
+  ].reduce(function reducePackages(packages, field) {
+    if (!(field in json)) return packages;
+
+    const found = Object.keys(json[field]).map(function transform(name) {
+      return {
+        version: json[field][name],
+        name: name,
+        type: field
+      };
+    });
+
+    return packages.concat(found);
+  }, []).filter(function searchAdapter(spec) {
+    if (typeof matcher === 'string') return matcher === spec.name;
+    return matcher.test(spec.name);
+  });
 }
 
 /**
@@ -162,4 +193,4 @@ module.exports = config.steps.reduce((data, step) => {
   // so it can provide contextual information for next steps if needed.
   //
   return Object.assign(data, patch || {});
-}, { json, config, ignore });
+}, { json, config, ignore, search });

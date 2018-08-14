@@ -8,7 +8,12 @@
  * @returns {Undefined} Nope, nothing.
  * @private
  */
-module.exports = function babel({ debug, config }) {
-  require('@babel/register')(config.babel);
+module.exports = function babel({ debug, config, search }) {
+  if (search('@babel/register').length) {
+    require('@babel/register')(config.babel);
+  } else if (search('babel-register').length) {
+    require('babel-register')(config.babel);
+  }
+
   debug('Initialized the babel compiler');
 };

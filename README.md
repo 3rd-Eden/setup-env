@@ -91,7 +91,7 @@ These are the steps that we execute (in order) to prepare the environment for
 testing. The following steps are executed:
 
 - `env` Ensure that a proper `NODE_ENV` is set before testing.
-- `register` Enable `@babel/register`.
+- `register` Enable `@babel/register` or the ancient `babel-register`.
 - `enzyme` Automatically configure the Enzyme adapter.
 - `jsdom` Prepare the environment with JSDOM.
 - `static` Allows requiring of static files such as `.css` and `.jpg` files.
@@ -123,6 +123,9 @@ control on how babel processes the files that you require in your test suite.
   }
 }
 ```
+
+It also support the ancient `babel-register` package, if you are building a
+new project we encourage you to use the latest and greatest.
 
 ### jsdom
 
