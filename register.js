@@ -11,9 +11,11 @@
 module.exports = function babel({ debug, config, search }) {
   if (search('@babel/register').length) {
     require('@babel/register')(config.babel);
+    debug('Initialized @babel/register');
   } else if (search('babel-register').length) {
     require('babel-register')(config.babel);
+    debug('Added babel-register');
+  } else {
+    debug('No babel compiler');
   }
-
-  debug('Initialized the babel compiler');
 };
