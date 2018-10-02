@@ -81,6 +81,6 @@ yarn-error.log
 dist
 
 # Compiled source
-!lib
+lib
 package-lock.json
 test
