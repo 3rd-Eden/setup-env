@@ -1,6 +1,7 @@
 import { shallow, render, mount } from 'enzyme';
 import { it, describe } from 'mocha';
 import assume from 'assume';
+import sinon from 'sinon';
 import React from 'react';
 
 //
@@ -79,6 +80,15 @@ describe('setup-env', function () {
       assume(jpg).is.a('object');
       assume(jpg.content).is.a('buffer');
       assume(jpg.data).equals('this file is processed by a custom loader');
+    });
+  });
+
+  describe('step: assert', function () {
+    it('registers plugins automatically', function () {
+      const spy = sinon.spy();
+
+      spy();
+      assume(spy).is.spylike();
     });
   });
 });
