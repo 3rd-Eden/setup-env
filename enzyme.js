@@ -25,7 +25,7 @@ module.exports = function enzymeAdapter({ debug, search }) {
   // on the first match).
   //
   try {
-    const { major, minor, patch } = require('react').version.split('.');
+    const [ major, minor, patch ] = require('react').version.split('.');
 
     adapters.push({
       name: `enzyme-adapter-react-${major}`,
@@ -51,6 +51,8 @@ module.exports = function enzymeAdapter({ debug, search }) {
       const Adapter = require(spec.name);
       enzyme.configure({ adapter: new Adapter() });
     } catch (e) {
+
+      debug(`Failed to load adapter ${spec.name} due to unknown error`, e);
       return false;
     }
 
