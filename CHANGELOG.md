@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## 1.2.2
+
+- Fixed auto generation of enzyme adapters based of the `React.version`.
+- Added debug information on why Enzyme adapters might be failing.
+
 ## 1.2.1
 
 - Added `.npmignore`
