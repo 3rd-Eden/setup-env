@@ -1,5 +1,9 @@
 # CHANGELOG
 
+# 1.2.3
+
+- Allow `setup-env/jsdom` to expose the created `jsdom` instance.
+
 ## 1.2.2
 
 - Fixed auto generation of enzyme adapters based of the `React.version`.
