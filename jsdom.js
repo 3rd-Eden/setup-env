@@ -55,11 +55,16 @@ module.exports = function jsdomMount({ debug, config, ignore }) {
     url: 'http://localhost'
   }, config.jsdom));
 
-  const { window } = page;
+  //
+  // Alias the jsdom reference onto this module for easy
+  // require / import in tests when necessary.
+  //
+  module.exports.jsdom = page;
 
   //
   // Introduce the variables to the global scope.
   //
+  const { window } = page;
   global.window = window;
   global.document = window.document;
   global.navigator = {
