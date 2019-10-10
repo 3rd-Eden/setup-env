@@ -65,6 +65,11 @@ describe('setup-env', function () {
       assume(global.navigator).is.not.a('undefined');
     });
 
+    it('aliases the jsdom instance', function () {
+      const { jsdom } = require('../jsdom');
+      assume(jsdom.reconfigure).is.a('function');
+    });
+
     it('uses the localhost instead of about:blank', function () {
       assume(location.href).equals('http://localhost/');
     });
