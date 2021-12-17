@@ -82,6 +82,7 @@ The following keys inside the `setup` object can be configured:
 - [steps](#steps)
 - [babel](#babel)
 - [jsdom](#jsdom)
+- [enzyme](#enzyme)
 - [loaders](#loaders)
 - [extensions](#extensions)
 
@@ -147,6 +148,27 @@ works.
 
 Additional, the `userAgent` can be configured using the `userAgent` key in
 `setup`.
+
+### enzyme
+
+We currently do a best effort in finding the correct Enzyme adapter. We'll
+search your dependencies for package names that match the
+`enzyme-adapter-react-(version number)` string and use those as adapters. When
+we're unable to find these adapters we'll start guessing which adapter to use
+based on the `react` version you have installed as dependency.
+
+If everything fails, or you have to resolve to using a custom adapter you can
+force the resolving of the adapter through our configuration.
+
+```js
+{
+  "setup": {
+    "enzyme": {
+      "adapter": "@wojtekmaj/enzyme-adapter-react-17"
+    }
+  }
+}
+```
 
 ### extensions
 

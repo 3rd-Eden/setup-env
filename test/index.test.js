@@ -1,5 +1,7 @@
 import { shallow, render, mount } from 'enzyme';
+import { debug, search, config } from '../index.js'
 import { it, describe } from 'mocha';
+import enzymeStep from '../enzyme.js';
 import assume from 'assume';
 import sinon from 'sinon';
 import React from 'react';
@@ -32,6 +34,17 @@ describe('setup-env', function () {
         );
       }
     }
+
+    it('creates an array of configured adapters', function () {
+      const adapters = enzymeStep({ debug, search, config });
+      const names = adapters.map(({ name }) => name);
+
+      assume(adapters).is.a('array');
+      assume(adapters.length).is.above(0);
+
+      assume(names).includes('@wojtekmaj/enzyme-adapter-react-17');
+      assume(names).includes('enzyme-adapter-react-16');
+    });
 
     it('has configured enzyme with the correct adapter', function () {
       const configuration = require('enzyme/build/configuration');

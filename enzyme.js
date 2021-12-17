@@ -8,14 +8,23 @@
  * @returns {Undefined} Nope, nothing.
  * @private
  */
-module.exports = function enzymeAdapter({ debug, search }) {
+module.exports = function enzymeAdapter({ debug, config, search }) {
   const enzyme = require('enzyme');
+  const adapters = [];
+
+  //
+  // Allow enzyme adapter to be configured in case of using a custom adapter
+  // that we cannot programatically discover.
+  //
+  if (config.enzyme && config.enzyme.adapter) {
+    adapters.push(config.enzyme.adapter);
+  }
 
   //
   // Get _all_ possible dependencies of the application in an attempt to
   // figure out which enzyme adapter needs to be loaded.
   //
-  const adapters = search(/^enzyme-adapter-react-(\d|\.)+$/);
+  Array.prototype.push.apply(adapters, search(/enzyme-adapter-react-(\d|\.)+$/));
   if (adapters.length) debug('Found the following adapters in package.json', adapters);
 
   //
@@ -59,4 +68,6 @@ module.exports = function enzymeAdapter({ debug, search }) {
     debug(`Enzyme configured with the ${spec.name} Adapter found through ${spec.type}`);
     return true;
   });
+
+  return adapters;
 };

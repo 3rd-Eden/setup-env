@@ -72,6 +72,11 @@ const config = Object.assign({
   jsdom: {},
 
   //
+  // Additional configuration for enzyme
+  //
+  enzyme: {},
+
+  //
   // Custom loader modules for a given extension that is listed below. This
   // allows you to manually process the extensions if needed. e.g. return
   // buffer instances instead of paths to the files.
@@ -165,6 +170,7 @@ function search(matcher) {
     return packages.concat(found);
   }, []).filter(function searchAdapter(spec) {
     if (typeof matcher === 'string') return matcher === spec.name;
+
     return matcher.test(spec.name);
   });
 }
