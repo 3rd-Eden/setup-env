@@ -55,8 +55,8 @@ const config = Object.assign({
   steps: [
     'env',          // Prepare the NODE_ENV.
     'register',     // Setup @babel/register.
-    'enzyme',       // Configure enzyme Adapter.
     'jsdom',        // Prepare enviroment for { mount } support.
+    'enzyme',       // Configure enzyme Adapter.
     'static',       // Allow require of static assets in Node.js.
     'assert'        // Introduce plugins to assert frameworks.
   ],
