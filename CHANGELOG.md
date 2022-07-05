@@ -1,5 +1,14 @@
 # CHANGELOG
 
+# 1.2.6
+
+- Revert #3, it was preventing test, ci, from exiting cleanly. Some references
+  are probably not cleaned up properly.
+
+# 1.2.4 - 1.2.5
+
+- Change the order of operations, see #3
+
 # 1.2.3
 
 - Allow `setup-env/jsdom` to expose the created `jsdom` instance.
