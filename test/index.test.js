@@ -86,6 +86,10 @@ describe('setup-env', function () {
     it('uses the localhost instead of about:blank', function () {
       assume(location.href).equals('http://localhost/');
     });
+
+    it('patches the getComputedStyle', function () {
+      window.getComputedStyle(document.body, ':after');
+    });
   });
 
   describe('step: assets', function () {

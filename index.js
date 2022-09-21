@@ -55,12 +55,17 @@ const config = Object.assign({
   steps: [
     'env',          // Prepare the NODE_ENV.
     'register',     // Setup @babel/register.
-    'enzyme',       // Configure enzyme Adapter.
-    //
-    // Note to future self: The order here somehow matters, when this is
-    // switched with enzyme, CI, and tests will not exit cleanly.
-    //
     'jsdom',        // Prepare enviroment for { mount } support.
+
+    //
+    // Note to future self, if CI tests do not work, it's because they are not
+    // getting cleaned up correctly. The reason that enzyme needs to be loaded
+    // after JSDOM is so it doesn't override event handlers that might be
+    // needed for testing. This affects different version of JSDOM, older
+    // versions like 17 might be fine, but newer versions like JSDOM 20 do
+    // miss event handlers like .attachEvent
+    //
+    'enzyme',       // Configure enzyme Adapter.
     'static',       // Allow require of static assets in Node.js.
     'assert'        // Introduce plugins to assert frameworks.
   ],

@@ -1,6 +1,6 @@
 {
   "name": "setup-env",
-  "version": "1.2.6",
+  "version": "2.0.0",
   "description": "Automated, feature detected, environment setup for your test suite",
   "main": "index.js",
   "scripts": {
@@ -47,7 +47,7 @@
     "assume-sinon": "^1.0.1",
     "enzyme": "^3.10.0",
     "enzyme-adapter-react-16": "^1.14.0",
-    "jsdom": "^15.1.1",
+    "jsdom": "^20.0.0",
     "mocha": "^6.1.4",
     "nyc": "^14.1.1",
     "react": "17.x.x",

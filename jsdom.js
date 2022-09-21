@@ -1,4 +1,49 @@
 /**
+ * Apply additional patches to the JSDOM environment.
+ *
+ * @returns {Undefined} Absolutely nothing.
+ */
+function patch() {
+  const { window } = global;
+
+  //
+  // JSDOM doesn't support the 2nd argument of getComputedStyle and throws a
+  // Not implemented error, while it's true that is not functional, this
+  // thrown errors and breaks test suites for no reason.
+  //
+  const errors = [];
+  const error = console.error;
+  console.error = (e) => errors.push(e);
+
+  try {
+    window.getComputedStyle(document.body, ':after');
+  } catch (_) {}
+
+  console.error = error;
+
+  if (errors.length && errors[0].includes('Not implemented: window.computedStyle(elt, pseudoElt)')) {
+    const { getComputedStyle } = window;
+    window.getComputedStyle = (elt) => getComputedStyle(elt);
+  }
+
+  //
+  // Ayo what is going on here you might ask, well lmao, your node process
+  // will freeze if you use JSDOM, React, and node with some very specific
+  // versioning conditions.
+  //
+  // https://github.com/facebook/react/issues/20756
+  //
+  // The only solution is to just nuke it.
+  //
+  try {
+    const version = require('react').version.split('.');
+    if (+version[0] < 17 || (+version[0] === 17 && +version[1] < 1)) {
+      delete global.MessageChannel;
+    }
+  } catch (_) {}
+}
+
+/**
  * But y tho:
  *
  * There are cases where you actually want to have a full render/lifecycle
@@ -13,7 +58,7 @@
 module.exports = function jsdomMount({ debug, config, ignore }) {
   if (typeof global.window !== 'undefined' && typeof global.document !== 'undefined') {
     debug('Enviroment already has a window & document global, ignoring jsdom');
-    return;
+    return patch();
   }
 
   //
@@ -33,7 +78,7 @@ module.exports = function jsdomMount({ debug, config, ignore }) {
   //
   if (typeof global.window !== 'undefined' && typeof global.document !== 'undefined') {
     debug('Enviroment already has a window & document global, ignoring jsdom');
-    return;
+    return patch();
   }
 
   //
@@ -82,4 +127,6 @@ module.exports = function jsdomMount({ debug, config, ignore }) {
       return result;
     }, {})
   );
+
+  patch();
 };
