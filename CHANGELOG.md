@@ -1,5 +1,14 @@
 # CHANGELOG
 
+# 2.0.0
+
+- Apply #3, but fix the issue that is introduced by it. Which is a React
+  specific bug that will prevent your process from closing because it
+  detects the `MessageChannel` object and uses that for scheduling but never
+  releases resources.
+- Silence JSDOM warnings about getComputedStyle, we get it, the 2nd prop
+  doesn't exist, but you shouldn't be flooding the console on each activation.
+
 # 1.2.6
 
 - Revert #3, it was preventing test, ci, from exiting cleanly. Some references
